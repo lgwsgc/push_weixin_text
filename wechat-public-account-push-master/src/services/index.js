@@ -130,16 +130,16 @@ export const getBirthdayMessage = () => {
 
   birthdayList.forEach((item, index) => {
     if (
-      ! config.FESTIVALS_LIMIT ||
+      !config.FESTIVALS_LIMIT ||
       (config.FESTIVALS_LIMIT && index < config.FESTIVALS_LIMIT)
-      ) {
+    ) {
       let message = null
 
       // 生日相关
       if (item.type === '生日') {
         // 获取周岁
         const age = dayjs().diff(item.year + '-' + item.date, 'year');
-  
+
         if (item.diffDay === 0) {
           message = `今天是 ${item.name} 的${age ? age + '岁' : ''}生日哦，祝${item.name}生日快乐！`
         } else {
@@ -174,7 +174,7 @@ export const getBirthdayMessage = () => {
  */
 export const getDateDiffList = () => {
   const dateList = config.CUSTOMIZED_DATE_LIST
-  
+
   dateList.forEach(item => {
     item['diffDay'] = Math.floor(dayjs().diff(dayjs(item.date), 'day', true))
   })
@@ -230,19 +230,19 @@ export const sendMessage = async (templateId, user, accessToken, params) => {
 
   // 发送消息
   const res = await axios.post(url, data, {
-      headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
-      }
+    headers: {
+      'Content-Type': 'application/json',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
+    }
   }).catch(err => err)
 
 
   if (res.data && res.data.errcode === 0) {
-      console.log('推送消息成功')
-      return {
-        name: user.name,
-        success: true
-      }
+    console.log('推送消息成功')
+    return {
+      name: user.name,
+      success: true
+    }
   }
   console.error('推送失败！', res.data)
   return {
@@ -277,10 +277,10 @@ export const sendMessageReply = async (templateId, users, accessToken, params) =
   const resList = await Promise.all(allPormise)
   resList.forEach(item => {
     if (item.success) {
-      successPostNum ++
+      successPostNum++
       successPostIds.push(item.name)
     } else {
-      failPostNum ++
+      failPostNum++
       failPostIds.push(item.name)
     }
   })
